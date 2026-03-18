@@ -5,7 +5,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
     apt-get upgrade -y && \
     apt-get install -y \
-       make cmake g++ clang llvm \
+       make cmake g++ libboost-all-dev clang llvm \
        sudo clang-tidy ninja-build libclang-dev llvm-dev libomp-dev libstdc++-13-dev && \
     apt-get purge --autoremove -y && \
     apt-get clean
