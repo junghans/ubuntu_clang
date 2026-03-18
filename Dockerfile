@@ -10,5 +10,5 @@ RUN printf "#include <iostream>\n int main() { std::cout << "Hello, CMake!" << s
 RUN printf "cmake_minimum_required(VERSION 3.12)\nproject(HelloWorld VERSION 1.0 LANGUAGES CXX)\nadd_executable(HelloWorld main.cpp)" > CMakeLists.txt
 RUN cmake -B build -DCMAKE_CXX_COMPILER=clang++
 
-RUN apt-get install -y ilibboost-all-dev
+RUN apt-get install -y libboost-all-dev
 RUN cmake -B build2 -DCMAKE_CXX_COMPILER=clang++
