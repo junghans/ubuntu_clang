@@ -1,22 +1,20 @@
-ARG TAG=34
-FROM registry.fedoraproject.org/fedora:${TAG}
+ARG TAG=latest
+FROM ubuntu:${TAG}
 
-
-RUN printf "[oneAPI]\nname=Intel oneAPI\nbaseurl=https://yum.repos.intel.com/oneapi\nenabled=1\ngpgcheck=1\nrepo_gpgcheck=1\ngpgkey=https://yum.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB" > /etc/yum.repos.d/intel-oneapi.repo && \
-dnf -y update && \
-dnf -y install intel-oneapi-compiler-dpcpp-cpp intel-oneapi-compiler-dpcpp-cpp-and-cpp-classic intel-oneapi-mkl-devel gcc-c++ git cmake && \
-dnf clean all
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y \
+       make cmake valgrind git g++ libexpat-dev libfftw3-dev libboost-all-dev txt2tags ccache gnuplot python3-numpy doxygen vim clang llvm python3-pip python3-lxml \
+       wget libhdf5-dev graphviz pkg-config psmisc libeigen3-dev libxc-dev sudo curl clang-tidy ninja-build libclang-dev llvm-dev libomp-dev libstdc++-13-dev \
+       clang-format software-properties-common zstd libint2-dev libecpint-dev python3-rdkit python3-h5py python3-pytest pybind11-dev python3-xmltodict ase && \
+    apt-get purge --autoremove -y && \
+    apt-get clean
 
 RUN useradd -m -G wheel -u 1001 user
 RUN echo '%wheel ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 USER user
-ENV PATH=/opt/intel/oneapi/compiler/latest/linux/bin:/opt/intel/oneapi/compiler/latest/linux/bin/intel64${PATH:+:}${PATH}
-ENV LD_LIBRARY_PATH=/opt/intel/oneapi/compiler/latest/linux/compiler/lib/intel64:/opt/intel/oneapi/mkl/latest/lib/intel64${LD_LIBRARY_PATH:+:}${LD_LIBRARY_PATH}
 WORKDIR /home/user
-RUN printf "#include <vector>\nint main (){\n std::vector<int> foo (3,100);\n std::vector<int> bar;\n foo.swap(bar); return 0; }" > test.cpp
-#RUN icpx -g -std=c++14 test.cpp
-
-#RUN git clone https://github.com/kokkos/kokkos
-#WORKDIR kokkos
-#RUN cmake -B build -DCMAKE_CXX_COMPILER=icpx
-#RUN cmake --build build
+RUN printf "#include <iostream>\n int main() { std::cout << "Hello, CMake!" << std::endl; return 0; }" > main.cpp
+RUN printf "cmake_minimum_required(VERSION 3.12)\nproject(HelloWorld VERSION 1.0 LANGUAGES CXX)\nadd_executable(HelloWorld main.cpp)" > CMakeLists.txt
+RUN cmake -B build -DCMAKE_CXX_COMPILER=clang++
