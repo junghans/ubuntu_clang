@@ -4,7 +4,7 @@ FROM ubuntu:${TAG}
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
     apt-get upgrade -y && \
-    apt-get install -y cmake clang libstdc++-13-dev && \
+    apt-get install -y cmake libboost-all-dev clang libstdc++-13-dev && \
     apt-get purge --autoremove -y && \
     apt-get clean
 
