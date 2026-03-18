@@ -11,7 +11,7 @@ RUN apt-get update && \
     apt-get purge --autoremove -y && \
     apt-get clean
 
-RUN useradd -m -G user -u 1001 user
+RUN useradd -m -G sudo -u 1001 user
 RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 USER user
 WORKDIR /home/user
