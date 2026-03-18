@@ -11,8 +11,8 @@ RUN apt-get update && \
     apt-get purge --autoremove -y && \
     apt-get clean
 
-RUN useradd -m -G wheel -u 1001 user
-RUN echo '%wheel ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+RUN useradd -m -G user -u 1001 user
+RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 USER user
 WORKDIR /home/user
 RUN printf "#include <iostream>\n int main() { std::cout << "Hello, CMake!" << std::endl; return 0; }" > main.cpp
