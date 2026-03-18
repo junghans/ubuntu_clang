@@ -5,7 +5,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
     apt-get upgrade -y && \
     apt-get install -y \
-       make cmake g++ libexpat-dev libfftw3-dev libboost-all-dev txt2tags ccache gnuplot python3-numpy doxygen vim clang llvm \
+       make cmake g++ libexpat-dev libfftw3-dev libboost-all-dev vim clang llvm \
        sudo clang-tidy ninja-build libclang-dev llvm-dev libomp-dev libstdc++-13-dev && \
     apt-get purge --autoremove -y && \
     apt-get clean
