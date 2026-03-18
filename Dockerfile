@@ -7,7 +7,7 @@ RUN apt-get update && \
     apt-get install -y \
        make cmake g++ libexpat-dev libfftw3-dev libboost-all-dev txt2tags ccache gnuplot python3-numpy doxygen vim clang llvm python3-pip python3-lxml \
        wget libhdf5-dev graphviz pkg-config psmisc libeigen3-dev libxc-dev sudo curl clang-tidy ninja-build libclang-dev llvm-dev libomp-dev libstdc++-13-dev \
-       clang-format software-properties-common zstd libint2-dev libecpint-dev python3-rdkit python3-h5py python3-pytest pybind11-dev python3-xmltodict ase && \
+       clang-format software-properties-common pybind11-dev && \
     apt-get purge --autoremove -y && \
     apt-get clean
 
